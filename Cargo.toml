@@ -3,3 +3,10 @@
 members = [
   "rust_os/freestanding_binary",
 ]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+

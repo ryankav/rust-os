@@ -2,6 +2,7 @@
 
 members = [
   "rust_os/freestanding_binary",
+  "rust_os/minimal_kernel",
 ]
 
 [profile.dev]

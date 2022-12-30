@@ -5,9 +5,3 @@ members = [
   "rust_os/minimal_kernel",
 ]
 
-[profile.dev]
-panic = "abort"
-
-[profile.release]
-panic = "abort"
-

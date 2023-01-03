@@ -1,3 +1,2 @@
-fn main() {
-  println!("Hello, world!");
-}
+mod vga_buffer;
+

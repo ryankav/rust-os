@@ -52,6 +52,17 @@ pub struct Writer {
 }
 
 impl Writer {
+    pub fn write_string(&mut self, s: &str) {
+        for byte in s.bytes() {
+            match byte {
+                // Printable ASCII char that can be writen to VGA
+                0x20..=0x7e | b'\n' => self.write_byte(byte),
+                // Not printable so write a filled square char
+                _ => self.write_byte(0xfe),
+            }
+        }
+    }
+
     pub fn write_byte(&mut self, byte: u8) {
         match byte {
             b'\n' => self.new_line(),
@@ -68,11 +79,24 @@ impl Writer {
                     ascii_character: byte,
                     color_code,
                 };
+
                 self.column_position += 1;
             }
         }
     }
 
     fn new_line(&mut self) {/* TODO */}
+}
+
+pub fn print_something() {
+    let mut writer = Writer {
+        column_positions: 0,
+        color_code: ColorCode::new(Color::Yellow, Color::Black),
+        buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
+    };
+
+    write.writer_byte(b'H');
+    writer.write_string("ello ");
+    writer.write_string("Wörld!");
 }
 

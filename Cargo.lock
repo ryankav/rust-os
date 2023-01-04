@@ -18,3 +18,10 @@ version = "0.1.0"
 dependencies = [
  "bootloader",
 ]
+
+[[package]]
+name = "vga_text_mode"
+version = "0.1.0"
+dependencies = [
+ "bootloader",
+]

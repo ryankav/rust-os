@@ -4,3 +4,8 @@ members = [
   "minimal_kernel",
 ]
 
+[workspace.dependencies]
+# A serious migration is needed to bump to version 10 of the booloader. Will
+# need to read the docs as it requires a change in the dependencies that are
+# needed. Thankfully matches the workspace layout currently in place
+bootloader = "0.9.23"

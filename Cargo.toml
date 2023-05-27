@@ -1,8 +1,6 @@
 [workspace]
 
 members = [
-  "rust_os/freestanding_binary",
-  "rust_os/minimal_kernel",
-  "rust_os/vga_text_mode",
+  "minimal_kernel",
 ]
 

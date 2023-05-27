@@ -2,6 +2,7 @@
 
 members = [
   "minimal_kernel",
+  "vga_buffer",
 ]
 
 [workspace.dependencies]
@@ -9,3 +10,4 @@ members = [
 # need to read the docs as it requires a change in the dependencies that are
 # needed. Thankfully matches the workspace layout currently in place
 bootloader = "0.9.23"
+volatile = "0.2.6"

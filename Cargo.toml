@@ -11,3 +11,5 @@ members = [
 # needed. Thankfully matches the workspace layout currently in place
 bootloader = "0.9.23"
 volatile = "0.2.6"
+lazy_static = "1.0"
+spin = "0.5.2"

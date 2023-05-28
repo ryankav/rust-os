@@ -3,6 +3,18 @@
 //! print. Then in the second byte the first four bits are the foreground color
 //! ie the char character, then the next three bits are the background color,
 //! and finally the remaining bit is used to set wether the char should blink.
+//! Hopefully the diagram below helps in visualising the above
+//!
+//!          VGA bit layout
+//!
+//!                      1
+//!  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5  
+//! *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+//! |   Ascii char  |  fg   |  bg |b|
+//! *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+//!
+//! fg: color = foreground, bg: color = background, b: bool = blink
+//!
 use core::fmt;
 use volatile::Volatile;
 
@@ -50,6 +62,10 @@ const BUFFER_WIDTH: usize = 80;
 
 #[repr(transparent)]
 struct Buffer {
+  // need the screen to be volatile as we don't read from it so, in theory, the
+  // compiler could optimise away the code to buffer as it looks like we don't
+  // use it. Volatile is basically a way for us to say that there are desired
+  // side effects from these writes
   chars: [[Volatile<ScreenChar>; BUFFER_WIDTH]; BUFFER_HEIGHT],
 }
 
@@ -82,8 +98,26 @@ impl Writer {
   }
 
   fn new_line(&mut self) {
-    todo!()
+    for row in 1..BUFFER_HEIGHT {
+      for col in 0..BUFFER_WIDTH {
+        let character = self.buffer.chars[row][col].read();
+        self.buffer.chars[row - 1][col].write(character);
+      }
+    }
+    self.clear_row(BUFFER_HEIGHT - 1);
+    self.column_position = 0;
   }
+
+  fn clear_row(&mut self, row: usize) {
+    let blank = ScreenChar {
+      ascii_character: b' ',
+      color_code: self.color_code,
+    };
+    for col in 0..BUFFER_WIDTH {
+      self.buffer.chars[row][col].write(blank);
+    }
+  }
+
   pub fn write_string(&mut self, s: &str) {
     for byte in s.bytes() {
       match byte {

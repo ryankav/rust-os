@@ -6,11 +6,12 @@
 
 use core::panic::PanicInfo;
 
+mod serial;
 mod vga_buffer;
 
 #[cfg(test)]
 fn test_runner(tests: &[&dyn Fn()]) {
-  println!("Running {} tests", tests.len());
+  serial_println!("Running {} tests", tests.len());
   for test in tests {
     test();
   }
@@ -36,7 +37,7 @@ pub extern "C" fn _start() -> ! {
 
 #[test_case]
 fn trivial_assertion() {
-  print!("trivial assertion... ");
+  serial_println!("trivial assertion... ");
   assert_eq!(1, 1);
   println!("[ok]");
 }

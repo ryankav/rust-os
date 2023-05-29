@@ -10,3 +10,7 @@ bootloader = { workspace = true }
 volatile = { workspace = true }
 lazy_static = { workspace = true, features = ["spin_no_std"] }
 spin = { workspace = true }
+x86_64 = { workspace = true }
+
+[package.metadata.bootimage]
+test-args = ["-device", "isa-debug-exit,iobase=0xf4,iosize=0x04"]

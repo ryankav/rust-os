@@ -3,6 +3,7 @@
 members = [
   "minimal_kernel",
   "vga_buffer",
+  "test_framework",
 ]
 
 [workspace.dependencies]

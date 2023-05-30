@@ -19,9 +19,19 @@ fn test_runner(tests: &[&dyn Fn()]) {
   exit_qemu(QemuExitCode::Success);
 }
 
+#[cfg(not(test))]
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
   println!("{}", info);
+  loop {}
+}
+
+#[cfg(test)]
+#[panic_handler]
+fn panic(info: &PanicInfo) -> ! {
+  serial_print!("[failed]\n");
+  serial_print!("Error: {}\n", info);
+  exit_qemu(QemuExitCode::Failed);
   loop {}
 }
 
@@ -38,7 +48,7 @@ pub extern "C" fn _start() -> ! {
 #[test_case]
 fn trivial_assertion() {
   serial_println!("trivial assertion... ");
-  assert_eq!(1, 1);
+  assert_eq!(0, 1);
   println!("[ok]");
 }
 
